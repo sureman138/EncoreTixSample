@@ -1,0 +1,47 @@
+﻿@using EncoreTix.ViewModels
+@model AttractionEventsViewModel
+@{
+    ViewData["Title"] = "Attraction Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="flex-column">
+    <div class="d-flex">
+        <img class="img-fluid mx-auto" src="@Model.Embedded.Events?.FirstOrDefault().EventEmbeddedDetails.Attractions.FirstOrDefault().Url" />
+    </div>
+    @if (Model.Embedded?.Events?.Count > 0)
+    {
+        @foreach (var attractionEvent in Model.Embedded.Events)
+        {
+            <div class="card mx-auto my-2" style="max-width:50em">
+                <div class="row">
+                    <div class="col-4 d-flex">
+                        @if (attractionEvent.Images != null && attractionEvent.Images.Any())
+                        {
+                            var image = attractionEvent.Images.FirstOrDefault(i => i.Ratio == "16_9") ?? attractionEvent.Images.FirstOrDefault();
+                            @if (image != null)
+                            {
+                                <img src="@image.Url" class="img-fluid" alt="@attractionEvent.Name">
+                            }
+                        }
+                        else
+                        {
+                            <img src="..." class="img-fluid" alt="...">
+                        }
+                    </div>
+                    <div class="col-8 d-flex align-items-center">
+                        <div class="ms-2">
+                            <span>@attractionEvent.FormattedDate</span>
+                            <h5 class="mb-0">@attractionEvent.EventEmbeddedDetails.Attractions.FirstOrDefault()?.Name</h5>
+                            <span>@attractionEvent.FormattedLocation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div>Ain't nothin' here for you, </div>
+    }
+</div>
