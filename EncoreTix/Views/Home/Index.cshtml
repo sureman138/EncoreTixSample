@@ -1,0 +1,55 @@
+﻿@using EncoreTix.ViewModels
+@model AttractionSearchViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<nav class="navbar navbar-light bg-light mx-auto">
+    <div class="container-fluid mx-auto">
+        <form class="d-flex mx-auto">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="flex-column">
+    @if (Model.Embedded?.Attractions?.Count > 0)
+    {
+        @foreach (var attraction in Model.Embedded.Attractions)
+        {
+            <div class="card mx-auto" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-4">
+                        @if (attraction.Images != null && attraction.Images.Any())
+                        {
+                            var image = attraction.Images.FirstOrDefault(i => i.Ratio == "16_9") ?? attraction.Images.FirstOrDefault();
+                            @if (image != null)
+                            {
+                                <img src="@image.Url" alt="@attraction.Name" style="height: 90px; width: 160px; object-fit: cover;">
+                            }
+                        }
+                        else
+                        {
+                            <img src="..." class="img-fluid rounded-start" alt="...">
+                        }
+                    </div>
+                    <div class="col-8">
+                        <a asp-action="AttractionEvents" asp-controller="Home" asp-route-attractionId="@attraction.Id" class="page-link">
+                            <div class="card-body">
+                                <h5 class="">@attraction.Name</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div>Ain't nothin' here for you, </div>
+    }
+</div>

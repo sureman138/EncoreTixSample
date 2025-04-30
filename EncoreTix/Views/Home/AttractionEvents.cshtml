@@ -1,0 +1,50 @@
+﻿@using EncoreTix.ViewModels
+@model AttractionEventsViewModel
+@{
+    ViewData["Title"] = "Attraction Events";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div class="flex-column">
+    @if (Model.Embedded?.Events?.Count > 0)
+    {
+        @foreach (var attractionEvent in Model.Embedded.Events)
+        {
+            <div class="card mx-auto" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-4">
+                        @if (attractionEvent.Images != null && attractionEvent.Images.Any())
+                        {
+                            var image = attractionEvent.Images.FirstOrDefault(i => i.Ratio == "16_9") ?? attractionEvent.Images.FirstOrDefault();
+                            @if (image != null)
+                            {
+                                <img src="@image.Url" alt="@attractionEvent.Name" style="height: 90px; width: 160px; object-fit: cover;">
+                            }
+                        }
+                        else
+                        {
+                            <img src="..." class="img-fluid rounded-start" alt="...">
+                        }
+                    </div>
+                    <div class="col-8">
+                        <a class="page-link">
+                            <div class="card-body">
+                                <h5 class="">@attractionEvent.FormattedDate</h5>
+                                <h5 class="">@attractionEvent.EventEmbeddedDetails.Attractions.FirstOrDefault()?.Name</h5>
+                                <h5 class="">@attractionEvent.FormattedLocation</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div>Ain't nothin' here for you, </div>
+    }
+</div>
