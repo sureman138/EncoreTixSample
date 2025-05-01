@@ -16,19 +16,30 @@ namespace EncoreTix.Controllers
             _ticketmasterApiClient = ticketmasterApiClient;
         }
 
-        public async Task<IActionResult> IndexAsync(string searchKeyword = "Phish")
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> AttractionSearch(string searchKeyword)
         {
             var request = new AttractionSearchRequest
             {
                 Keyword = searchKeyword
             };
+
+            if (!ModelState.IsValid)
+            {
+                return View("Error");
+            }
+
             var attractions = await _ticketmasterApiClient.SearchAttractionsAsync(request);
-            return View(attractions);
+            return View("Index", attractions);
         }
 
-        public async Task<IActionResult> AttractionEvents(string attractionId, string attractionName, string? twitterUrl, string? spotifyUrl, string? youTubeUrl, string? homePageUrl)
+        public async Task<IActionResult> AttractionEvents(string attractionId, string attractionName, string previousKeyword, string? imageUrl, string? twitterUrl, string? spotifyUrl, string? youTubeUrl, string? homePageUrl)
         {
-            var attractionEvents = await _ticketmasterApiClient.GetAttractionEventsAsync(attractionId, attractionName, twitterUrl, spotifyUrl, youTubeUrl, homePageUrl);
+            var attractionEvents = await _ticketmasterApiClient.GetAttractionEventsAsync(attractionId, attractionName, previousKeyword, imageUrl, twitterUrl, spotifyUrl, youTubeUrl, homePageUrl);
             return View(attractionEvents);
         }
 

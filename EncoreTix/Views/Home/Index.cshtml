@@ -1,66 +1,90 @@
 ﻿@using EncoreTix.ViewModels
-@model AttractionSearchViewModel
+@model AttractionSearchViewModel?
 @{
     ViewData["Title"] = "Home Page";
 }
-<nav class="navbar navbar-light bg-light mx-auto">
-    <div class="container-fluid mx-auto">
-        <form class="d-flex mx-auto" asp-action="Index">
-            <input class="form-control me-2 search-input" name="searchKeyword" type="search" placeholder="@Model.PreviousKeyword" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
-<div class="flex-column">
-    @if (Model.Embedded?.Attractions?.Count > 0)
-    {
-        @foreach (var attraction in Model.Embedded.Attractions)
+
+@if (Model == null)
+{
+    <nav class="navbar navbar-light navbar-search">
+        <div class="container-fluid">
+            <form class="d-flex flex-grow-1 flex-xl-grow-0 mx-auto" asp-action="AttractionSearch">
+                <input class="form-control me-2 search-input" name="searchKeyword" type="search" placeholder="Phish" value="Phish" aria-label="Search">
+                <button class="search-button" type="submit">Submit</button>
+            </form>
+        </div>
+    </nav>
+}
+else
+{
+    <nav class="navbar navbar-light navbar-search">
+        <div class="container-fluid">
+            <form class="d-flex flex-grow-1 flex-xl-grow-0 mx-auto" asp-action="AttractionSearch">
+                <input class="form-control me-2 search-input" name="searchKeyword" type="search" placeholder="@Model.PreviousKeyword" aria-label="Search">
+                <button class="search-button" type="submit">Submit</button>
+            </form>
+        </div>
+    </nav>
+    <form asp-action="AttractionEvents" id="attractionForm">
+        <input type="hidden" name="attractionId" id="attractionId" />
+        <input type="hidden" name="attractionName" id="attractionName" />
+        <input type="hidden" name="previousKeyword" id="previousKeyword" value="@Model.PreviousKeyword" />
+        <input type="hidden" name="imageUrl" id="imageUrl" />
+        <input type="hidden" name="twitterUrl" id="twitterUrl" />
+        <input type="hidden" name="youTubeUrl" id="youTubeUrl" />
+        <input type="hidden" name="spotifyUrl" id="spotifyUrl" />
+        <input type="hidden" name="homePageUrl" id="homePageUrl" />
+    </form>
+    <div class="flex-column">
+        @if (Model.Embedded?.Attractions?.Count > 0)
         {
-            <div class="card mx-auto" style="max-width: 540px;">
-                <div class="row g-0">
-                    <div class="col-4">
-                        @if (attraction.Images != null && attraction.Images.Any())
-                        {
-                            var image = attraction.Images.FirstOrDefault(i => i.Ratio == "16_9") ?? attraction.Images.FirstOrDefault();
-                            @if (image != null)
+            @foreach (var attraction in Model.Embedded.Attractions)
+            {
+                <div class="card mx-auto my-2 attraction-result">
+                    <div class="row attraction-row">
+                        <span hidden class="attractionId" data-id="@attraction.Id"></span>
+                        <span hidden class="attractionName" data-name="@attraction.Name"></span>
+                        <span hidden class="twitterUrl" data-twitter="@attraction.ExternalLinks?.Twitter?.FirstOrDefault()?.Url"></span>
+                        <span hidden class="youTubeUrl" data-youtube="@attraction.ExternalLinks?.YouTube?.FirstOrDefault()?.Url"></span>
+                        <span hidden class="spotifyUrl" data-spotify="@attraction.ExternalLinks?.Spotify?.FirstOrDefault()?.Url"></span>
+                        <span hidden class="homePageUrl" data-homepage="@attraction.ExternalLinks?.Homepage?.FirstOrDefault()?.Url"></span>
+                        <div class="col-4 d-flex" style="max-height:15vh">
+                            @if (attraction.Images != null && attraction.Images.Any())
                             {
-                                <img src="@image.Url" alt="@attraction.Name" style="height: 90px; width: 160px; object-fit: cover;">
+                                var image = attraction.Images.FirstOrDefault(i => i.Ratio == "16_9") ?? attraction.Images.FirstOrDefault();
+                                @if (image != null)
+                                {
+                                    <img src="@image.Url" class="img-fluid flex-fill" alt="@attraction.Name">
+                                    <span hidden class="imageUrl" data-imageurl="@image.Url"></span>
+                                }
                             }
-                        }
-                        else
-                        {
-                            <img src="..." class="img-fluid rounded-start" alt="...">
-                        }
-                    </div>
-                    <div class="col-8">
-                        <form asp-action="AttractionEvents" id="attractionForm">
-                            <input type="hidden" name="attractionId" value="@attraction.Id" />
-                            <input type="hidden" name="attractionName" value="@attraction.Name" />
-                            @if (attraction.ExternalLinks != null)
+                            else
                             {
-                                <input type="hidden" name="twitterUrl" value="@attraction.ExternalLinks.Twitter?.FirstOrDefault()?.Url" />
-                                <input type="hidden" name="youTubeUrl" value="@attraction.ExternalLinks.YouTube?.FirstOrDefault()?.Url" />
-                                <input type="hidden" name="spotifyUrl" value="@attraction.ExternalLinks.Spotify?.FirstOrDefault()?.Url" />
-                                <input type="hidden" name="homePageUrl" value="@attraction.ExternalLinks.Homepage?.FirstOrDefault()?.Url" />
+                                <img src="" class="img-fluid flex-fill" alt="empty image">
+                                <span hidden class="imageUrl" data-imageurl=""></span>
                             }
-                        </form>
-                        <a class="page-link" href="#" onclick="document.getElementById('attractionForm').submit(); return false;">
-                            <div class="card-body">
-                                <h5 class="">@attraction.Name</h5>
-                            </div>
-                        </a>
+                        </div>
+                        <div class="col-8 d-flex align-items-center">
+
+                            <span>@attraction.Name</span>
+
+                        </div>
                     </div>
+                </div>
+            }
+            <div class="d-flex mt-4">
+                <button class="btn search-button mx-auto" id="selectButton" form="attractionForm">Select</button>
+            </div>
+        }
+        else
+        {
+            <div class="container d-flex justify-content-center align-items-center" style="max-width: 30rem; height: 30vh;">
+                <div class="bg-white rounded d-flex flex-column justify-content-center align-items-center p-3" style="height: 20vh; width: 100%;">
+                    <img src="~/sadface_icon.png" class="mb-2" alt="Sad face" style="max-height: 40px;">
+                    <h5 class="text-center mb-0 no-result-text">No Results Found</h5>
                 </div>
             </div>
         }
-    }
-    else
-    {
-        <div class="container d-flex justify-content-center align-items-center" style="max-width: 30rem; height: 30vh;">
-            <div class="bg-white rounded-3 d-flex flex-column justify-content-center align-items-center p-3" style="height: 20vh; width: 100%;">
-                <img src="~/sadface_icon.png" class="mb-2" alt="Sad face" style="max-height: 40px;">
-                <p class="text-center mb-0 text-primary">No results found for "@Model.PreviousKeyword". Please try a different search.</p>
-            </div>
-        </div>
-    }
-</div>
+    </div>
+
+}

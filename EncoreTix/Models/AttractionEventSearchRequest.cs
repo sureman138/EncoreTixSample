@@ -2,9 +2,9 @@
 
 namespace EncoreTix.Models
 {
-    public class AttractionSearchRequest
+    public class AttractionEventSearchRequest
     {
-        [MaxLength(50)]
+        [StringLength(50)]
         [Required(ErrorMessage = "Please Enter a Keyword")]
         public string Keyword { get; set; }
 

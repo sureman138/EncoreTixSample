@@ -6,12 +6,18 @@
 }
 
 <div class="flex-column">
+    <div class="container-fluid py-2" style="max-width:50em">
+        <form class="d-flex" asp-action="AttractionSearch">
+            <input type="hidden" name="searchKeyword" value="@Model.PreviousKeyword">
+            <button class="search-button" type="submit">< Back</button>
+        </form>
+    </div>
     <div class="d-flex col-12">
-        <img class="img-fluid mx-md-auto" src="@Model.AttractionImageUrl" style="height:40vh;"/>
+        <img class="img-fluid mx-md-auto" src="@Model.ImageUrl" style="height:30vh;"/>
     </div>
     <div class="row mx-auto" style="max-width:50em">
         <div class="col-6 d-flex align-items-center">
-            <h1 class="mb-0">@Model.AttractionName</h1>
+            <h5 class="mb-0">@Model.AttractionName</h5>
         </div>
         <div class="col-6 d-flex justify-content-end align-items-center">
             @if (!string.IsNullOrEmpty(Model.TwitterUrl))
@@ -52,12 +58,12 @@
                             var image = attractionEvent.Images.FirstOrDefault(i => i.Ratio == "16_9") ?? attractionEvent.Images.FirstOrDefault();
                             @if (image != null)
                             {
-                                <img src="@image.Url" class="img-fluid" alt="@attractionEvent.Name">
+                                <img src="@image.Url" class="img-fluid flex-fill" alt="@attractionEvent.Name">
                             }
                         }
                         else
                         {
-                            <img src="..." class="img-fluid" alt="...">
+                            <img src="" class="img-fluid flex-fill" alt="empty image">
                         }
                     </div>
                     <div class="col-8 d-flex align-items-center">
@@ -73,6 +79,11 @@
     }
     else
     {
-        <div>Ain't nothin' here for you, </div>
+        <div class="container d-flex justify-content-center align-items-center" style="max-width: 30rem; height: 30vh;">
+            <div class="bg-white rounded d-flex flex-column justify-content-center align-items-center p-3" style="height: 20vh; width: 100%;">
+                <img src="~/sadface_icon.png" class="mb-2" alt="Sad face" style="max-height: 40px;">
+                <h5 class="text-center mb-0 no-result-text">No Upcoming Events</h5>
+            </div>
+        </div>
     }
 </div>

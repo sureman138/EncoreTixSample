@@ -43,20 +43,22 @@ namespace EncoreTix.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
-            if (string.IsNullOrEmpty(content))
-                return new AttractionSearchViewModel { Embedded = new AttractionEmbedded() };
+            var attractionSearchViewModel = new AttractionSearchViewModel { Embedded = new AttractionEmbedded() };
 
-            var attractionSearchViewModel = JsonSerializer.Deserialize<AttractionSearchViewModel>(content, new JsonSerializerOptions
+            if (!string.IsNullOrEmpty(content))
             {
-                PropertyNameCaseInsensitive = true
-            });
-            
+                attractionSearchViewModel = JsonSerializer.Deserialize<AttractionSearchViewModel>(content, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+
             attractionSearchViewModel.PreviousKeyword = request.Keyword;
 
             return attractionSearchViewModel;
         }
 
-        public async Task<AttractionEventsViewModel> GetAttractionEventsAsync(string attractionId, string attractionName, string? twitterUrl, string? spotifyUrl, string? youTubeUrl, string? homePageUrl)
+        public async Task<AttractionEventsViewModel> GetAttractionEventsAsync(string attractionId, string attractionName, string previousKeyword, string? imageUrl, string? twitterUrl, string? spotifyUrl, string? youTubeUrl, string? homePageUrl)
         {
             if (string.IsNullOrEmpty(attractionId))
                 throw new ArgumentNullException(nameof(attractionId));
@@ -77,19 +79,23 @@ namespace EncoreTix.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
-            if (string.IsNullOrEmpty(content) || !content.Contains("_embedded"))
-                return new AttractionEventsViewModel { Embedded = new AttractionEventsEmbedded() };
+            var attractionEventsViewModel = new AttractionEventsViewModel { Embedded = new AttractionEventsEmbedded() };
 
-            var attractionEventsViewModel = JsonSerializer.Deserialize<AttractionEventsViewModel>(content, new JsonSerializerOptions
+            if (!string.IsNullOrEmpty(content) && content.Contains("_embedded"))
             {
-                PropertyNameCaseInsensitive = true
-            });
+                attractionEventsViewModel = JsonSerializer.Deserialize<AttractionEventsViewModel>(content, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
 
             attractionEventsViewModel.AttractionName = attractionName;
+            attractionEventsViewModel.ImageUrl = imageUrl;
             attractionEventsViewModel.TwitterUrl = twitterUrl;
             attractionEventsViewModel.SpotifyUrl = spotifyUrl;
             attractionEventsViewModel.YouTubeUrl = youTubeUrl;
             attractionEventsViewModel.HomePageUrl = homePageUrl;
+            attractionEventsViewModel.PreviousKeyword = previousKeyword;
 
             return attractionEventsViewModel;
         }
