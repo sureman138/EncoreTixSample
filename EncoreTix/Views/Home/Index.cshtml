@@ -3,11 +3,6 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
 <nav class="navbar navbar-light bg-light mx-auto">
     <div class="container-fluid mx-auto">
         <form class="d-flex mx-auto" asp-action="Index">
@@ -38,7 +33,18 @@
                         }
                     </div>
                     <div class="col-8">
-                        <a asp-action="AttractionEvents" asp-controller="Home" asp-route-attractionId="@attraction.Id" class="page-link">
+                        <form asp-action="AttractionEvents" id="attractionForm">
+                            <input type="hidden" name="attractionId" value="@attraction.Id" />
+                            <input type="hidden" name="attractionName" value="@attraction.Name" />
+                            @if (attraction.ExternalLinks != null)
+                            {
+                                <input type="hidden" name="twitterUrl" value="@attraction.ExternalLinks.Twitter?.FirstOrDefault()?.Url" />
+                                <input type="hidden" name="youTubeUrl" value="@attraction.ExternalLinks.YouTube?.FirstOrDefault()?.Url" />
+                                <input type="hidden" name="spotifyUrl" value="@attraction.ExternalLinks.Spotify?.FirstOrDefault()?.Url" />
+                                <input type="hidden" name="homePageUrl" value="@attraction.ExternalLinks.Homepage?.FirstOrDefault()?.Url" />
+                            }
+                        </form>
+                        <a class="page-link" href="#" onclick="document.getElementById('attractionForm').submit(); return false;">
                             <div class="card-body">
                                 <h5 class="">@attraction.Name</h5>
                             </div>
@@ -50,6 +56,11 @@
     }
     else
     {
-        <div>Ain't nothin' here for you, </div>
+        <div class="container d-flex justify-content-center align-items-center" style="max-width: 30rem; height: 30vh;">
+            <div class="bg-white rounded-3 d-flex flex-column justify-content-center align-items-center p-3" style="height: 20vh; width: 100%;">
+                <img src="~/sadface_icon.png" class="mb-2" alt="Sad face" style="max-height: 40px;">
+                <p class="text-center mb-0 text-primary">No results found for "@Model.PreviousKeyword". Please try a different search.</p>
+            </div>
+        </div>
     }
 </div>

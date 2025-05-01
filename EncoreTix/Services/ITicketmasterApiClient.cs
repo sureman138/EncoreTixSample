@@ -6,6 +6,6 @@ namespace EncoreTix.Interfaces
     public interface ITicketmasterApiClient
     {
         Task<AttractionSearchViewModel> SearchAttractionsAsync(AttractionSearchRequest request);
-        Task<AttractionEventsViewModel> GetAttractionEventsAsync(string attractionId);
+        Task<AttractionEventsViewModel> GetAttractionEventsAsync(string attractionId, string attractionName, string? twitterUrl, string? spotifyUrl, string? youTubeUrl, string? homePageUrl);
     }
 }

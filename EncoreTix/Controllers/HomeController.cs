@@ -26,9 +26,9 @@ namespace EncoreTix.Controllers
             return View(attractions);
         }
 
-        public async Task<IActionResult> AttractionEvents(string attractionId)
+        public async Task<IActionResult> AttractionEvents(string attractionId, string attractionName, string? twitterUrl, string? spotifyUrl, string? youTubeUrl, string? homePageUrl)
         {
-            var attractionEvents = await _ticketmasterApiClient.GetAttractionEventsAsync(attractionId);
+            var attractionEvents = await _ticketmasterApiClient.GetAttractionEventsAsync(attractionId, attractionName, twitterUrl, spotifyUrl, youTubeUrl, homePageUrl);
             return View(attractionEvents);
         }
 

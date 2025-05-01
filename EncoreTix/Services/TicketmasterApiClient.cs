@@ -56,7 +56,7 @@ namespace EncoreTix.Services
             return attractionSearchViewModel;
         }
 
-        public async Task<AttractionEventsViewModel> GetAttractionEventsAsync(string attractionId)
+        public async Task<AttractionEventsViewModel> GetAttractionEventsAsync(string attractionId, string attractionName, string? twitterUrl, string? spotifyUrl, string? youTubeUrl, string? homePageUrl)
         {
             if (string.IsNullOrEmpty(attractionId))
                 throw new ArgumentNullException(nameof(attractionId));
@@ -64,7 +64,7 @@ namespace EncoreTix.Services
             var queryParams = new Dictionary<string, string>
             {
                 ["apikey"] = _options.ApiKey,
-                ["size"] = "6",
+                ["size"] = "4",
                 ["attractionId"] = attractionId
             };
             string fullEndpoint = new UriBuilder($"{BaseUrl}/events.json")
@@ -80,10 +80,18 @@ namespace EncoreTix.Services
             if (string.IsNullOrEmpty(content) || !content.Contains("_embedded"))
                 return new AttractionEventsViewModel { Embedded = new AttractionEventsEmbedded() };
 
-            return JsonSerializer.Deserialize<AttractionEventsViewModel>(content, new JsonSerializerOptions
+            var attractionEventsViewModel = JsonSerializer.Deserialize<AttractionEventsViewModel>(content, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
+
+            attractionEventsViewModel.AttractionName = attractionName;
+            attractionEventsViewModel.TwitterUrl = twitterUrl;
+            attractionEventsViewModel.SpotifyUrl = spotifyUrl;
+            attractionEventsViewModel.YouTubeUrl = youTubeUrl;
+            attractionEventsViewModel.HomePageUrl = homePageUrl;
+
+            return attractionEventsViewModel;
         }
 
         public class TicketmasterApiOptions

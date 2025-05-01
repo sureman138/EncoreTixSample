@@ -6,8 +6,39 @@
 }
 
 <div class="flex-column">
-    <div class="d-flex">
-        <img class="img-fluid mx-auto" src="@Model.Embedded.Events?.FirstOrDefault().EventEmbeddedDetails.Attractions.FirstOrDefault().Url" />
+    <div class="d-flex col-12">
+        <img class="img-fluid mx-md-auto" src="@Model.AttractionImageUrl" style="height:40vh;"/>
+    </div>
+    <div class="row mx-auto" style="max-width:50em">
+        <div class="col-6 d-flex align-items-center">
+            <h1 class="mb-0">@Model.AttractionName</h1>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center">
+            @if (!string.IsNullOrEmpty(Model.TwitterUrl))
+            {
+                <a href="@Model.TwitterUrl" target="_blank">
+                    <img src="/twitter-logo.png"/>
+                </a>    
+            }
+            @if (!string.IsNullOrEmpty(Model.YouTubeUrl))
+            {
+                <a href="@Model.YouTubeUrl" target="_blank">
+                    <img src="/youtube-logo.png"/>
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(Model.SpotifyUrl))
+            {
+                <a href="@Model.SpotifyUrl" target="_blank">
+                    <img src="/spotify-logo.png"/>
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(Model.HomePageUrl))
+            {
+                <a class="mt-2" href="@Model.HomePageUrl" target="_blank">
+                    <img src="/website-logo.png"/>
+                </a>
+            }
+        </div>
     </div>
     @if (Model.Embedded?.Events?.Count > 0)
     {
@@ -32,7 +63,7 @@
                     <div class="col-8 d-flex align-items-center">
                         <div class="ms-2">
                             <span>@attractionEvent.FormattedDate</span>
-                            <h5 class="mb-0">@attractionEvent.EventEmbeddedDetails.Attractions.FirstOrDefault()?.Name</h5>
+                            <h5 class="mb-0">@Model.AttractionName</h5>
                             <span>@attractionEvent.FormattedLocation</span>
                         </div>
                     </div>
