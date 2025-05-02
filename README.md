@@ -2,6 +2,8 @@
 
 EncoreTixSample is an MVC web application designed to provide users with an intuitive interface for searching and exploring attractions and events using the Ticketmaster API.
 
+![Image](https://github.com/user-attachments/assets/80a74c1e-eb62-48e9-ae57-3ff57590ed26)
+
 ## Technologies Used
 
 - **.NET 8**: Built with modern version of .NET for optimal performance.
