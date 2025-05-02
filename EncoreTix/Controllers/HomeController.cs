@@ -31,6 +31,7 @@ namespace EncoreTix.Controllers
             if (!ModelState.IsValid)
             {
                 return View("Error");
+                _logger.LogError("Invalid search request", ModelState);
             }
 
             var attractions = await _ticketmasterApiClient.SearchAttractionsAsync(request);

@@ -1,5 +1,9 @@
 ﻿$(document).ready(function () {
-    $(".attraction-row").click(function () {
+    $(".attraction-result").click(function () {
+
+        $('.attraction-result').removeClass('selected'); // Remove 'selected' from all elements with class 'element'
+        $(this).addClass('selected');
+
         let attractionId = $(this).find('.attractionId').data('id');
         let attractionName = $(this).find('.attractionName').data('name');
         let imageUrl = $(this).find('.imageUrl').data('imageurl');

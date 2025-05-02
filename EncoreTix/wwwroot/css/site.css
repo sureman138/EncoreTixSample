@@ -1,6 +1,6 @@
 :root {
-    --ET_Black:#182F40;
-    --ET_Primary-Blue:#186CA8;
+    --ET_Black: #182F40;
+    --ET_Primary-Blue: #186CA8;
     --ET_Light-Blue: #5DBDF0;
     --ET_X-Light-Blue: #EDF5F9;
 }
@@ -55,10 +55,10 @@ body {
     max-width: 40em;
 }
 
-.attraction-result:hover {
-    cursor: pointer;
-    border: 1px solid var(--ET_Light-Blue);
-}
+    .attraction-result:hover {
+        cursor: pointer;
+        border: 1px solid var(--ET_Light-Blue);
+    }
 
 .no-result-text {
     color: var(--ET_Primary-Blue);
@@ -74,6 +74,26 @@ body {
     padding-right: 20px;
 }
 
-.search-button:hover {
-    background-color: var(--ET_Light-Blue);
+    .search-button:hover {
+        background-color: var(--ET_Light-Blue);
+    }
+
+#selectButton {
+    background-color: var(--ET_Primary-Blue);
+    color: white;
+    border: none;
+    border-radius: 0.5em;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+    #selectButton:hover {
+        background-color: var(--ET_Light-Blue);
+    }
+
+.selected {
+    background-color: var(--ET_Primary-Blue);
+    color: white;
 }
