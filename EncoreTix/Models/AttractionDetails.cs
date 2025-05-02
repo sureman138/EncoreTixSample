@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using static System.Net.Mime.MediaTypeNames;
-
+﻿
 namespace EncoreTix.Models
 {
     public class AttractionDetails

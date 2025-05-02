@@ -1,12 +1,10 @@
 using EncoreTix.Interfaces;
-using EncoreTix.Models;
 using EncoreTix.Services;
 using static EncoreTix.Services.TicketmasterApiClient;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<TicketmasterApiOptions>(builder.Configuration.GetSection("TicketmasterApi"));
 builder.Services.AddHttpClient<ITicketmasterApiClient, TicketmasterApiClient>(client =>
