@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using EncoreTix.Interfaces;
 using EncoreTix.Models;
+using EncoreTix.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EncoreTix.Controllers
@@ -30,8 +31,8 @@ namespace EncoreTix.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View("Error");
                 _logger.LogError("Invalid search request", ModelState);
+                return Redirect("Error");
             }
 
             var attractions = await _ticketmasterApiClient.SearchAttractionsAsync(request);

@@ -1,4 +1,9 @@
 ﻿$(document).ready(function () {
+
+    setTimeout(() => {
+        $(".splash").addClass('display-none');
+    }, 2000);
+
     $(".attraction-result").click(function () {
 
         $('.attraction-result').removeClass('selected'); // Remove 'selected' from all elements with class 'element'

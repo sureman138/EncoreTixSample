@@ -1,4 +1,4 @@
-namespace EncoreTix.Models
+﻿namespace EncoreTix.ViewModels
 {
     public class ErrorViewModel
     {

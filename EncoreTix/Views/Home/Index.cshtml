@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
 @if (Model == null)
 {
     <nav class="navbar navbar-light navbar-search">
@@ -14,6 +13,11 @@
             </form>
         </div>
     </nav>
+    <div class="splash">
+        <div class="d-flex justify-content-center align-items-center p-3 fade-in" style="height: 100vh; width: 100%;">
+            <img src="~/ET Logo stacked.png" alt="Encore Tix Logo Large" style="max-height: 50vh;">
+        </div>
+    </div>
 }
 else
 {
