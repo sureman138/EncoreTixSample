@@ -4,7 +4,7 @@ EncoreTixSample is an MVC web application designed to provide users with an intu
 
 ## Technologies Used
 
-- **.NET 8**: Built with the latest version of .NET for optimal performance.
+- **.NET 8**: Built with modern version of .NET for optimal performance.
 - **MVC**: Utilizes Razor Pages for a clean and modular UI.
 - **Ticketmaster API**: Integrates with the Ticketmaster API to fetch attraction and event data.
 
